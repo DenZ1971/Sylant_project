@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Категории справочников</h2>
+<ul>
+{% for entity in entities %}
+    <li><a href="{% url 'reference_list' entity.id %}">{{ entity.entityCategory }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

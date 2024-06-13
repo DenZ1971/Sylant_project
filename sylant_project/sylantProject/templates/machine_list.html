@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Общая инфо{% endblock %}
+{% block content %}
+
+<div class="tabs">
+</div>
+ <form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Фильтровать</button>
+    <button type="submit" name="filter" value="reset" class="btn btn-secondary">Очистить</button>
+  </form>
+<h2>Техника</h2>
+<div class="add-machine">
+{% if user.is_authenticated and user.role == 'manager' %}
+  <button class="submit" onclick="location.href='{% url 'machine-create' %}'">Добавить новую машину</button>
+{% endif %}
+</div>
+<div class="table-container">
+<table class="responsive-table">
+  <thead>
+      <tr>
+        <th>Серийный номер</th>
+        <th>Модель</th>
+        <th>Модель двигателя</th>
+        <th>Серийный номер двигателя</th>
+        <th>Модель трансмисии</th>
+        <th>Серийный номер трансмисии</th>
+        <th>Модель ведущего моста</th>
+        <th>Серийный номер ведущего моста</th>
+        <th>Модель управляемого моста</th>
+        <th>SСерийный номер управляемого моста</th>
+        <th>Договор поставки</th>
+        <th>Дата отгрузки</th>
+        <th>Грузополучатель</th>
+        <th>Адрес доставки</th>
+        <th>Комплектация</th>
+      </tr>
+    </thead>
+      <tbody>
+      {% for machine in machines %}
+        <tr>
+          <td><a href="{% url 'machine-detail' machine.pk %}">{{ machine.serial_number }}</a></td>
+          <td>{{ machine.model }}</td>
+          <td>{{ machine.engine_model }}</td>
+          <td>{{ machine.engine_serial_number }}</td>
+          <td>{{ machine.transmission_model }}</td>
+          <td>{{ machine.transmission_serial_number }}</td>
+          <td>{{ machine.drive_axle_model }}</td>
+          <td>{{ machine.drive_axle_serial_number }}</td>
+          <td>{{ machine.steering_axle_model }}</td>
+          <td>{{ machine.steering_axle_serial_number }}</td>
+          <td>{{ machine.delivery_contract }}</td>
+          <td>{{ machine.shipment_date }}</td>
+          <td>{{ machine.consignee }}</td>
+          <td>{{ machine.delivery_address }}</td>
+          <td>{{ machine.configuration }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>
+{% endblock %}

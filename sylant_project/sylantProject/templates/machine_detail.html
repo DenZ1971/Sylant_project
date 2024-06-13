@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<h2>Детали машины</h2>
+<div class="table-container">
+    <table class="responsive-table">
+        <thead>
+            <tr>
+                <th>Поле</th>
+                <th>Значение</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for field, value, description in fields %}
+                <tr>
+                    <td>{{ field }}</td>
+                    <td>{{ value }}</td>
+                    <td>{{ description|default:"Нет описания" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="button-group">
+    {% if is_manager %}
+    <form action="{% url 'machine_edit' machine.id %}">
+        <button type="submit">Редактировать</button>
+    </form>
+    <button type="button" class="btn btn-danger" id="btn-delete" data-id="{{ machine.id }}" data-name="{{ machine.serial_number }}" data-url="{% url 'machine_delete' machine.id %}">
+        Удалить
+    </button>
+    {% endif %}
+
+    {% if back_to_list_url %}
+    <div class="back-button">
+        <form action="{{ back_to_list_url }}">
+            <button type="submit">Назад к списку</button>
+        </form>
+    </div>
+    {% endif %}
+    {% if back_to_search_url %}
+    <div class="back-button">
+        <form action="{{ back_to_search_url }}">
+            <button type="submit">Назад к поиску</button>
+        </form>
+    </div>
+    {% endif %}
+
+</div>
+
+<!-- Modal -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5>Подтвердите удаление</h5>
+      <span class="close">&times;</span>
+    </div>
+    <div class="modal-body">
+      Вы уверены, что хотите удалить машину с номером <span id="modal-machine-name"></span>?
+    </div>
+    <div class="modal-footer">
+      <form id="deleteForm" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="button" class="btn btn-secondary btn-cancel">Отмена</button>
+        <button type="submit" class="btn btn-danger btn-delete-confirm">Удалить</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/modal-script.js' %}"></script>
+{% endblock %}

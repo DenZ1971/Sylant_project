@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Мой Силант</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles_new.css' %}">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <img src="{% static 'images/logo.png' %}" alt="логотип">
+                </div>
+                {% if user.is_authenticated %}
+                <div class="auth"><a href="{% url 'account_logout' %}">Bыйти</a></div>
+                {% else %}
+                <div class="auth"><a href="{% url 'account_login' %}">Aвторизация</a></div>
+                {% endif %}
+            </div>
+            <div class="title">Электронная сервисная книжка "Мой Силант"</div>
+        </header>
+
+        <div class="container">
+            <main>
+
+        {% if user.is_authenticated %}
+        <div class="results-section">
+            <div class="user-info">
+
+                <p><h4>Добро пожаловать, {{ user.username }}! Вы авторизованы как {{ user.get_role_display }}.</h4></p>
+
+            </div>
+            <div class="results-section">
+            <p><h3 id="panel-title">Информация о комплектации и технических характеристиках Вашей техники</h3></p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab" onclick="location.href='{% url 'machine-list' %}'">Техника</button>
+            <button class="tab" onclick="location.href='{% url 'maintenance-list' %}'">Техническое обслуживание</button>
+            <button class="tab" onclick="location.href='{% url 'claim-list' %}'">Рекламации</button>
+            {% if user.role == 'manager' %}
+            <button class="tab" onclick="location.href='{% url 'manager' %}'">Панель администратора</button>
+            {% endif %}
+        </div>
+        </div>
+        {% else %}
+            {% block search %}
+            {% endblock %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </main>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="contact">+7-8352-20-12-09, telegram</div>
+                <div class="copyright">Мой Силант 2022</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Пользователи</h2>
+    <div class="add-machine">
+        <button onclick="location.href='{{ add_user_url }}'">Добавить пользователя</button>
+    </div>
+    <div class="table-container">
+        <table class="responsive-table">
+            <thead>
+                <tr>
+                    <th>Имя пользователя</th>
+                    <th>Электронная почта</th>
+                    <th>Роль</th>
+                    <th>Компания</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td><a href="{% url 'user-detail' user.pk %}">{{ user.username }}</a></td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.role }}</td>
+                        {% if user.role == 'client' %}
+                        <td>{{ user.client }}</td>
+                        {% elif user.role == 'service' %}
+                        <td>{{ user.service_organization }}</td>
+                        {% else %}
+                        <td>manager</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

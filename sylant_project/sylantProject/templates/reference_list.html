@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ entity.entityCategory }}</h2>
+<ul>
+    {% for reference in references %}
+    <li>
+        <a href="{% url 'reference_detail' reference.id %}" target="_blank">{{ reference.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+<button type="button" class="btn btn-success" onclick="window.location.href='{% url 'reference_create' entity.id %}'">Добавить новую запись</button>
+<button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'reference_entity_list' %}'">Назад к списку категорий</button>
+{% endblock %}
+
+
+
+
+
+<!--<h2>{{ entity.entityCategory }}</h2>-->
+<!--<ul>-->
+<!--{% for reference in references %}-->
+<!--    <li>{{ reference.name }} &#45;&#45; <button type="button" class="btn btn-edit" data-id="{{ reference.id }}">Редактировать</button> &#45;&#45;-->
+<!--    <button type="button" class="btn-delete" data-id="{{ reference.id }}" data-name="{{ reference.name }}">-->
+<!--        Удалить-->
+<!--    </button>-->
+<!--    </li>-->
+<!--{% endfor %}-->
+<!--</ul>-->
+<!--<a href="{% url 'reference_create' entity.id %}">Добавить новую запись</a>-->
+
+<!--&lt;!&ndash; Modal &ndash;&gt;-->
+<!--<div id="deleteModal" class="modal">-->
+<!--  <div class="modal-content">-->
+<!--    <div class="modal-header">-->
+<!--      <h5>Подтвердите удаление</h5>-->
+<!--      <span class="close">&times;</span>-->
+<!--    </div>-->
+<!--    <div class="modal-body">-->
+<!--      Вы уверены, что хотите удалить <span id="modal-reference-name"></span>?-->
+<!--    </div>-->
+<!--    <div class="modal-footer">-->
+<!--      <form id="deleteForm" method="post" style="display:inline;">-->
+<!--        {% csrf_token %}-->
+<!--        <button type="button" class="btn-cancel">Отмена</button>-->
+<!--        <button type="submit" class="btn-delete-confirm">Удалить</button>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--document.addEventListener('DOMContentLoaded', function() {-->
+<!--    var modal = document.getElementById('deleteModal');-->
+<!--    var span = document.getElementsByClassName('close')[0];-->
+<!--    var cancelBtn = document.getElementsByClassName('btn-cancel')[0];-->
+
+<!--    document.querySelectorAll('.btn-delete').forEach(function(button) {-->
+<!--        button.onclick = function() {-->
+<!--            var id = this.getAttribute('data-id');-->
+<!--            var name = this.getAttribute('data-name');-->
+<!--            document.getElementById('modal-reference-name').textContent = name;-->
+<!--            document.getElementById('deleteForm').action = '/delete/' + id + '/';-->
+<!--            modal.style.display = 'block';-->
+<!--        };-->
+<!--    });-->
+
+<!--    span.onclick = function() {-->
+<!--        modal.style.display = 'none';-->
+<!--    };-->
+
+<!--    cancelBtn.onclick = function() {-->
+<!--        modal.style.display = 'none';-->
+<!--    };-->
+
+<!--    window.onclick = function(event) {-->
+<!--        if (event.target == modal) {-->
+<!--            modal.style.display = 'none';-->
+<!--        }-->
+<!--    };-->
+
+<!--    document.querySelectorAll('.btn-edit').forEach(function(button) {-->
+<!--        button.onclick = function() {-->
+<!--            var id = this.getAttribute('data-id');-->
+<!--            window.location.href = '/reference/update/' + id + '/';-->
+<!--        };-->
+<!--    });-->
+<!--});-->
+<!--</script>-->
+

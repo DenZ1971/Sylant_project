@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tabs">
+</div>
+  <form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Фильтровать</button>
+    <button type="submit" name="filter" value="reset" class="btn btn-secondary">Очистить</button>
+  </form>
+  <h2>Рекламации</h2>
+<div class="add-machine">
+{% if user.is_authenticated and user.role == 'manager' or user.role == 'service' %}
+  <button class="submit" onclick="location.href='{% url 'claim-create' %}'">Добавить рекламацию</button>
+{% endif %}
+</div>
+  {% if claims %}
+    <div class="table-container">
+      <table class="responsive-table">
+        <tr>
+          <th>Дата отказа</th>
+          <th>Наработка машины</th>
+          <th>Узел отказа</th>
+          <th>Описание отказа</th>
+          <th>Метод восстановления</th>
+          <th>Используемые зап. части</th>
+          <th>Дата восстановления</th>
+          <th>Время простоя</th>
+          <th>Машина</th>
+          <th>Сервисная компания</th>
+        </tr>
+        {% for claim in claims %}
+        <tr>
+          <td><a href="{% url 'claim-detail' claim.pk %}">{{ claim.failure_date }}</a></td>
+          <td>{{ claim.machine_hours }}</td>
+          <td>{{ claim.failure_unit.name }}</td>
+          <td>{{ claim.failure_description }}</td>
+          <td>{{ claim.recovery_method.name }}</td>
+          <td>{{ claim.spare_parts }}</td>
+          <td>{{ claim.recovery_date }}</td>
+          <td>{{ claim.downtime }}</td>
+          <td><a href="{% url 'machine-detail' claim.machine.pk %}">{{ claim.machine.serial_number }}</a></td>
+          <td>{{ claim.service_company.name }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  {% else %}
+    <p>Рекламации не найдены.</p>
+  {% endif %}
+{% endblock %}

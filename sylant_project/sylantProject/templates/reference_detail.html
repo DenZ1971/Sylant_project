@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h2>{{ reference.name }}</h2>
+<p>{{ reference.description }}</p>
+
+<form action="{% url 'reference_update' reference.id %}" method="get" style="display:inline;">
+    <button type="submit" class="btn btn-primary">Редактировать</button>
+</form>
+<form action="{% url 'reference_list' reference.entity.id %}" method="get" style="display:inline;">
+    <button type="submit" class="btn btn-secondary">Назад к списку</button>
+</form>
+
+<button type="button" class="btn btn-danger" id="btn-delete" data-id="{{ reference.id }}" data-name="{{ reference.name }}" data-url="{% url 'reference_delete' reference.id %}">
+    Удалить
+</button>
+
+<!-- Modal -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5>Подтвердите удаление</h5>
+      <span class="close">&times;</span>
+    </div>
+    <div class="modal-body">
+      Вы уверены, что хотите позицию <span id="modal-machine-name"></span>?
+    </div>
+    <div class="modal-footer">
+      <form id="deleteForm" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="button" class="btn btn-secondary btn-cancel">Отмена</button>
+        <button type="submit" class="btn btn-danger btn-delete-confirm">Удалить</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/modal-script.js' %}"></script>
+{% endblock %}

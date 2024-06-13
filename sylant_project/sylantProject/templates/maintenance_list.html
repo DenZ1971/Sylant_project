@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tabs">
+
+</div>
+<form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Фильтровать</button>
+    <button type="submit" name="filter" value="reset" class="btn btn-secondary">Очистить</button>
+  </form>
+  <h2>TO</h2>
+<div class="add-machine">
+{% if user.is_authenticated and user.role == 'manager' or user.role == 'service' or user.role == 'client' %}
+  <button class="submit" onclick="location.href='{% url 'maintenance-create' %}'">Добавить новое ТО</button>
+{% endif %}
+</div>
+  <div class="table-container">
+    <table class="responsive-table">
+      <tr>
+        <th>Тип ТО</th>
+        <th>Дата проведения ТО</th>
+        <th>Наработка (часов)</th>
+        <th>Номер заказ-наряда</th>
+        <th>Дата заказ-наряда</th>
+        <th>Компания проводившая ТО</th>
+        <th>Машина</th>
+        <th>Сервисная компания</th>
+      </tr>
+      {% for maintenance in maintenances %}
+      <tr>
+        <td><a href="{% url 'maintenance-detail' maintenance.pk %}">{{ maintenance.maintenance_type.name }}</a></td>
+        <td>{{ maintenance.maintenance_date }}</td>
+        <td>{{ maintenance.machine_hours }}</td>
+        <td>{{ maintenance.order_number }}</td>
+        <td>{{ maintenance.order_date }}</td>
+        <td>{{ maintenance.company.name }}</td>
+        <td><a href="{% url 'machine-detail' maintenance.machine.pk %}">{{ maintenance.machine.serial_number }}</a></td>
+        <td>{{ maintenance.service_company.name }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endblock %}

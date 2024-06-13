@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Edit Reference</h2>
+<form method="post" class="machine-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+        </div>
+        {% endfor %}
+        {% if form.errors %}
+        <div class="form-errors">
+            {{ form.errors }}
+        </div>
+        {% endif %}
+        <button type="submit">Сохранить</button>
+    </form>
+    <div class="back-button">
+        <form action="{% url 'reference_detail' pk %}">
+            <button type="submit" class="btn btn-second">Назад к деталям</button>
+        </form>
+    </div>
+{% endblock %}

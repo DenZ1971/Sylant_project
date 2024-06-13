@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Добро пожаловать!</h2>
+    <div class="button-container">
+        <button onclick="location.href='{% url 'users-list' %}'">Пользователи</button>
+        <button onclick="location.href='{% url 'reference_entity_list' %}'">Справочники</button>
+    </div>
+{% endblock %}
